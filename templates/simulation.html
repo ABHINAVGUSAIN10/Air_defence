@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Simulation</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container full-width-container">
+        <h1>📡 Live Radar Simulation</h1>
+        <div class="simulation-layout">
+            <div class="canvas-container">
+                <canvas id="radarCanvas" width="800" height="800"></canvas>
+            </div>
+            <div id="info-panel" class="info-panel">
+                <h2>Aircraft Status</h2>
+                </div>
+        </div>
+    </div>
+
+    <script>
+        const simulationData = {{ initial_sim_data | tojson }};
+    </script>
+    <script src="{{ url_for('static', filename='js/simulation.js') }}"></script>
+</body>
+</html>

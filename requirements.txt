@@ -1,0 +1,25 @@
+# Core ML Libraries
+torch>=2.0.0
+torchvision>=0.15.0
+numpy>=1.23.0
+pandas>=1.5.0
+
+# YOLOv8 and Ultralytics
+ultralytics>=8.0.20
+
+# Radar Signal & Trajectory Prediction
+scikit-learn>=1.3.0
+
+# UI
+Flask>=2.3.0
+streamlit-drawable-canvas>=0.9.3
+
+# Image and UI Tools
+Pillow>=9.5.0
+matplotlib>=3.7.0
+
+# Optional: tqdm for training visualization
+tqdm>=4.65.0
+
+# HDF5 if using DeepSig format (optional)
+h5py>=3.9.0

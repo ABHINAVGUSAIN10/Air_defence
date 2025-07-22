@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analysis Results</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>📋 Aircraft Analysis Results</h1>
+        <p>Review the detected aircraft and mark any potential threats before running the simulation.</p>
+
+        <form action="/simulation" method="POST">
+            <div class="results-grid">
+                {% for plane in planes %}
+                <div class="result-card">
+                    <img src="{{ url_for('static', filename=plane.image_path) }}" alt="Detected Aircraft">
+                    <h3>{{ plane.name }}</h3>
+                    <p><strong>Modulation:</strong> {{ plane.modulation }}</p>
+                    
+                    <input type="hidden" name="plane_ids" value="{{ plane.id }}">
+                    
+                    <div class="threat-marker">
+                        <input type="checkbox" id="threat_{{ plane.id }}" name="threats" value="{{ plane.id }}">
+                        <label for="threat_{{ plane.id }}">Mark as Threat</label>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            {% if planes %}
+                <button type="submit" class="btn btn-primary">🚀 Run Simulation</button>
+            {% else %}
+                <p>No aircraft were detected. Please <a href="/">try again</a>.</p>
+            {% endif %}
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Air Defence System - Upload</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>🛡️ Air Defence Threat Identification System</h1>
+        
+        <form action="/upload" method="POST" enctype="multipart/form-data" class="upload-form">
+            <div class="form-group">
+                <label for="image_files">1. Upload Aircraft Images (.jpg, .png):</label>
+                <input type="file" id="image_files" name="image_files" accept=".jpg, .jpeg, .png" multiple required>
+            </div>
+            <div class="form-group">
+                <label for="npy_files">2. Upload I/Q Data Files (.npy):</label>
+                <input type="file" id="npy_files" name="npy_files" accept=".npy" multiple>
+            </div>
+            <button type="submit" class="btn">Analyze Aircraft</button>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,26 @@
+# --- Python & Virtual Environments ---
+# Ignores Python's bytecode cache, virtual environment folders, and environment variable files
+__pycache__/
+*.pyc
+venv/
+*.env
+.env
+
+# --- IDE / Editor Specific ---
+# Ignores metadata folders from editors like VS Code
+.vscode/
+.idea/
+
+# --- Jupyter Notebook ---
+# Ignores temporary checkpoint folders from Jupyter
+.ipynb_checkpoints/
+
+# --- Application-Specific ---
+# Ignores the folder for temporary user-uploaded files
+static/uploads/
+
+# --- Datasets ---
+# Ignores all large dataset folders shown in your structure
+data/
+trajectory/
+iq_data/
