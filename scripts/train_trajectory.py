@@ -11,7 +11,7 @@ from models.trajectory_model import TrajectoryPredictor
 train_path = r"C:\Users\Abhinav Gusain\Documents\Air_defence\data\trajectory\7days1\processed_data\train"
 full_dataset = TrajectoryDataset(train_path)
 
-# Split 80% train, 20% validation
+
 train_size = int(0.8 * len(full_dataset))
 val_size = len(full_dataset) - train_size
 train_dataset, val_dataset = random_split(full_dataset, [train_size, val_size])
@@ -57,7 +57,9 @@ for epoch in range(25):
     avg_val_loss = val_loss / len(val_loader)
     print(f"Epoch {epoch+1} | Train Loss: {avg_train_loss:.4f} | Val Loss: {avg_val_loss:.4f}")
 
-    # After training is complete
+   
 torch.save(model.state_dict(), "C:/Users/Abhinav Gusain/Documents/Air_defence/models/trajectory_lstm.pth")
 print("✅ Trained model saved to models/trajectory_lstm.pth")
+
+
 
