@@ -11,10 +11,10 @@ class TrajectoryPredictor(nn.Module):
     def forward(self, input_seq, pred_len=10):
         batch_size = input_seq.size(0)
 
-        # Encode the input sequence
+       
         _, (hidden, cell) = self.encoder(input_seq)
 
-        # Initialize decoder input (start with last known position)
+        
         decoder_input = input_seq[:, -1, :3].unsqueeze(1)  # [B, 1, 3]
 
         outputs = []
@@ -23,6 +23,6 @@ class TrajectoryPredictor(nn.Module):
             out, (hidden, cell) = self.decoder(decoder_input, (hidden, cell))
             pred = self.fc_out(out)
             outputs.append(pred)
-            decoder_input = pred  # feedback for next step
+            decoder_input = pred 
 
-        return torch.cat(outputs, dim=1)  # [B, pred_len, 3]
+        return torch.cat(outputs, dim=1)  
