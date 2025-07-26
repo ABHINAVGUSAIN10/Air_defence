@@ -12,21 +12,21 @@ test_folder = r"C:\Users\Abhinav Gusain\Documents\Air_defence\test_images"
 output_folder = r"C:\Users\Abhinav Gusain\Documents\Air_defence\test_models\predictions"
 os.makedirs(output_folder, exist_ok=True)
 
-# Run predictions on all images in test_images
+
 for file in os.listdir(test_folder):
     if file.endswith((".jpg", ".png", ".jpeg")):
         image_path = os.path.join(test_folder, file)
 
-        # Run inference
+        
         results = model(image_path)
 
-        # Check if any detections (bounding boxes) exist
+        
         result = results[0]
         if result.boxes is not None and len(result.boxes) > 0:
-            print(f"✅ Aircraft detected in: {file}")
+            print(f" Aircraft detected in: {file}")
         else:
-            print(f"❌ No aircraft detected in: {file}")
+            print(f" No aircraft detected in: {file}")
 
-        # Save annotated image
+        
         save_path = os.path.join(output_folder, file)
         result.save(filename=save_path)
