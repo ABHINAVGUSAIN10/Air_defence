@@ -9,14 +9,14 @@ class TrajectoryDataset(Dataset):
         self.input_len = input_len
         self.pred_len = pred_len
 
-        for file in os.listdir(folder_path):  # ← this MUST be inside __init__
+        for file in os.listdir(folder_path): 
             if file.endswith(".txt"):
                 path = os.path.join(folder_path, file)
                 try:
                     df = pd.read_csv(path, delim_whitespace=True, header=None)
                     df.columns = ["Frame #", "Aircraft ID", "x (km)", "y (km)", "z (km)", "windx (m/s)", "windy (m/s)"]
                 except Exception as e:
-                    print(f"❌ Failed to process {file}: {e}")
+                    print(f" Failed to process {file}: {e}")
                     continue
 
                 for aid, group in df.groupby("Aircraft ID"):
@@ -27,7 +27,7 @@ class TrajectoryDataset(Dataset):
                     if len(arr) >= total_len:
                         for i in range(len(arr) - total_len + 1):
                             input_seq = arr[i : i + input_len]
-                            target_seq = arr[i + input_len : i + total_len, :3]  # x,y,z only
+                            target_seq = arr[i + input_len : i + total_len, :3] 
                             self.samples.append((input_seq, target_seq))
 
     def __len__(self):
@@ -38,12 +38,13 @@ class TrajectoryDataset(Dataset):
         return torch.tensor(input_seq, dtype=torch.float32), torch.tensor(target_seq, dtype=torch.float32)
 
 
-# Example usage:
+
 if __name__ == '__main__':
     train_path = r"C:\Users\Abhinav Gusain\Documents\Air_defence\data\trajectory\7days1\processed_data\train"
     dataset = TrajectoryDataset(train_path)
 
     print("Total training sequences:", len(dataset))
     sample_input, sample_output = dataset[0]
-    print("Input shape:", sample_input.shape)   # Expect: [20, 5]
-    print("Target shape:", sample_output.shape) # Expect: [10, 3]
+    print("Input shape:", sample_input.shape)   
+    print("Target shape:", sample_output.shape) 
+
