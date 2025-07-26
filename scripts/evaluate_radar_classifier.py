@@ -1,5 +1,3 @@
-# In air_defense_ai/scripts/evaluate_radar_classifier.py
-
 import torch
 from torch.utils.data import DataLoader
 import numpy as np
@@ -12,13 +10,13 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from collections import defaultdict
 
-# Adjust import paths
+
 import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from utils.radar_dataset import RadarDataset
 from models.radar_cnn import RadarCNN
 
-# Use the fixed class names as specified in the dataset documentation
+
 CLASSES = [
     'OOK', '4ASK', '8ASK', 'BPSK', 'QPSK', '8PSK', '16PSK', '32PSK',
     '16APSK', '32APSK', '64APSK', '128APSK', '16QAM', '32QAM', '64QAM',
@@ -47,10 +45,9 @@ def evaluate(args):
 
     all_labels = []
     all_predictions = []
-    # Dictionary to store results grouped by SNR
+   
     snr_results = defaultdict(lambda: {'correct': 0, 'total': 0})
 
-    # --- Evaluation Loop ---
     with torch.no_grad():
         for signals, labels, snrs in test_loader:
             signals = signals.to(device)
@@ -60,14 +57,14 @@ def evaluate(args):
             all_labels.extend(labels.cpu().numpy())
             all_predictions.extend(predicted.cpu().numpy())
             
-            # Group results by SNR
+            
             for i in range(len(snrs)):
                 snr_val = int(snrs[i].item())
                 snr_results[snr_val]['total'] += 1
                 if predicted[i].cpu() == labels[i]:
                     snr_results[snr_val]['correct'] += 1
 
-    # --- 1. Overall Metrics and Confusion Matrix ---
+    
     print("\n" + "="*50)
     print("Overall Classification Report")
     print("="*50)
@@ -85,9 +82,9 @@ def evaluate(args):
     cm_path = "evaluation_confusion_matrix.png"
     plt.savefig(cm_path)
     print(f"\nOverall confusion matrix saved to {cm_path}")
-    plt.close() # Close the figure to prepare for the next plot
+    plt.close() 
 
-    # --- 2. SNR-Specific Analysis ---
+    
     print("\n" + "="*50)
     print("Accuracy per Signal-to-Noise Ratio (SNR)")
     print("="*50)
@@ -99,7 +96,7 @@ def evaluate(args):
         acc_by_snr.append(accuracy)
         print(f"SNR: {snr:3d} dB | Accuracy: {accuracy:6.2f}% ({snr_results[snr]['correct']}/{snr_results[snr]['total']})")
         
-    # Plot Accuracy vs. SNR
+   
     plt.figure(figsize=(12, 7))
     plt.plot(snr_values, acc_by_snr, marker='o', linestyle='-', color='b')
     plt.title('Model Accuracy vs. SNR')
