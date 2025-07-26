@@ -8,23 +8,23 @@ import os
 import argparse
 from sklearn.model_selection import train_test_split
 
-# Adjust import paths based on project structure
+
 import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from utils.radar_dataset import RadarDataset
 from models.radar_cnn import RadarCNN
 
 def train(args):
-    # Setup device
+    
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f"Using device: {device}")
 
-    # --- Data Loading ---
+    
     with h5py.File(args.data_path, 'r') as f:
         num_samples = len(f['X'])
     
     indices = np.arange(num_samples)
-    # Split indices into training and validation sets (80/20 split)
+    
     train_indices, val_indices = train_test_split(indices, test_size=0.2, random_state=42)
     
     train_dataset = RadarDataset(args.data_path, train_indices)
@@ -35,14 +35,14 @@ def train(args):
     
     print(f"Training on {len(train_dataset)} samples, validating on {len(val_dataset)} samples.")
 
-    # --- Model, Loss, Optimizer ---
+    
     model = RadarCNN(num_classes=24).to(device)
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.Adam(model.parameters(), lr=args.learning_rate)
     
     best_val_loss = float('inf')
     
-    # --- Training Loop ---
+    
     for epoch in range(args.epochs):
         model.train()
         running_loss = 0.0
@@ -83,7 +83,7 @@ def train(args):
         print(f"\nEpoch {epoch+1} Summary:")
         print(f"Train Loss: {train_loss:.4f} | Val Loss: {val_loss:.4f} | Val Accuracy: {val_accuracy:.2f}%\n")
         
-        # Save the model with the best validation loss
+        
         if val_loss < best_val_loss:
             best_val_loss = val_loss
             os.makedirs(os.path.dirname(args.save_path), exist_ok=True)
@@ -102,11 +102,10 @@ if __name__ == "__main__":
     parser.add_argument('--batch_size', type=int, default=256, help='Batch size for training')
     parser.add_argument('--learning_rate', type=float, default=0.001, help='Learning rate for the optimizer')
     
-    # In a real shell, you would run this script from the root 'air_defense_ai' directory
-    # For IDEs, you might need to adjust default paths or run configurations
+   
     args = parser.parse_args()
     
-    # Make paths relative to the project root
+    
     if not os.path.isabs(args.data_path):
         args.data_path = os.path.join(os.path.dirname(__file__), '..', args.data_path)
     if not os.path.isabs(args.save_path):
